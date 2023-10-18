@@ -1,0 +1,42 @@
+version: '3'
+services:
+    postgres:
+        image: docker.io/postgres:16-alpine
+        environment:
+            - POSTGRES_PASSWORD=12345asdf
+    redis:
+        image: docker.io/redis:alpine
+    ngnix:
+        depends_on:
+          - api
+          - client
+        restart: always
+        build:
+          context: ./ngnix
+        ports:
+          - "3050:80"
+    api:
+        depends_on:
+          - postgres
+          - redis
+        build:
+            context: ./server
+        environment:
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            - PGHOST=postgres
+            - PGUSER=postgres
+            - PGDATABASE=postgres
+            - PGPASSWORD=12345asdf
+            - PGPORT=5432
+    client:
+        build:
+          context: ./client
+    worker:
+        depends_on:
+           - redis
+        build:
+          context: ./worker
+        environment:
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
