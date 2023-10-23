@@ -16,23 +16,22 @@ spec:
       - name: m3project
         image: meenadhandapani/m3project
         ports:
-        - containerPort: 3000
+           - containerPort: 3000
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         env:
           - name: POSTGRES_HOST
-            value: postgres
+            value: postgres-cluster-ip-service
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_USERNAME
             value: postgres
           - name: POSTGRES_DB
-            value: simple-blog-api
+            value: simple_blog_api
           - name: POSTGRES_PASSWORD
             valueFrom:
                 secretKeyRef:
                   name: pgpassword
                   key: POSTGRES_PASSWORD
-        

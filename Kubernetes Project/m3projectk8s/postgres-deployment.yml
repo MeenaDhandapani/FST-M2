@@ -28,8 +28,9 @@ spec:
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
-              subPath: postgres
           env:
+            - name: POSTGRES_DB
+              value: simple_blog_api
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
