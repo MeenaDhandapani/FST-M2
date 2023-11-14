@@ -1,0 +1,19 @@
+-- Drop tables
+DROP TABLE files;
+DROP TABLE word_counts;
+
+-- Create table with text data
+CREATE TABLE files(lines STRING);
+
+-- Load text data into table
+LOAD DATA LOCAL INPATH '/root/input.txt' INTO TABLE files;
+
+-- Perform MapReduce
+CREATE TABLE word_counts AS
+SELECT word, count(1) AS count FROM
+(SELECT explode(split(lines, ' ')) AS word FROM files) w
+GROUP BY word
+ORDER BY word;
+
+-- View word counts
+SELECT * FROM word_counts;
