@@ -1,0 +1,11 @@
+-- Drop episode_IV table
+
+DROP TABLE episode_IV
+
+
+--Create table Episode IV
+CREATE TABLE episode_IV (name STRING, line STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' TBLPROPERTIES ("skip.header.line.count"="2");
+LOAD DATA LOCAL INPATH '/root/episodeIV_dialogues.txt' INTO TABLE episode_IV;
+SELECT COUNT(*) FROM episode_IV WHERE INSTR (line, 'Luke')>0;
+SELECT COUNT(*) FROM episode_IV WHERE line LIKE %Luke%;
